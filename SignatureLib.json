@@ -1,0 +1,11 @@
+{
+  "id": "SignatureLib",
+  "name": "SignatureLib",
+  "author": "诗音",
+  "description": "Modify the SignatureLib.",
+  "version": "v1.0.0",
+  "has_pck": true,
+  "has_dll": true,
+  "dependencies": [],
+  "affects_gameplay": false
+}

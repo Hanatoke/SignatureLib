@@ -1,0 +1,16 @@
+[gd_scene load_steps=3 format=3 uid="uid://b1fxtb8f5g1t6"]
+
+[ext_resource type="Texture2D" uid="uid://bv3jw6lqqqqmk" path="res://SignatureLib/images/desc_shadow.png" id="1_qfpn2"]
+[ext_resource type="Script" uid="uid://75wc77ncxfbt" path="res://SignatureLibCode/Node/NDescShadow.cs" id="2_w0ihh"]
+
+[node name="DescShadow" type="TextureRect"]
+offset_left = -256.0
+offset_top = -256.0
+offset_right = 256.0
+offset_bottom = 256.0
+pivot_offset = Vector2(256, 256)
+mouse_filter = 2
+texture = ExtResource("1_qfpn2")
+expand_mode = 4
+stretch_mode = 5
+script = ExtResource("2_w0ihh")
