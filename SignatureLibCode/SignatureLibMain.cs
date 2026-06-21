@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using HarmonyLib;
 using MegaCrit.Sts2.Core.Modding;
 using MegaCrit.Sts2.Core.Models;
@@ -30,6 +31,13 @@ public partial class SignatureLibMain : Godot.Node
             if (card is ISignatureCard { ShouldAutoAddSignature: true } signatureCard)
             {
                 card.AddSignatures(signatureCard.SignatureInfos);
+                
+                if (signatureCard.AutoEnabledSignature != null && card.GetCurrentSignature() == null &&
+                    card.GetSignatureById(signatureCard.AutoEnabledSignature) is { } info)
+                {
+                    card.SetCurrentSignature(info,false);
+                    card.SetSignatureEnable(true,false);
+                }
             }
             foreach (var func in SignatureManager.SignatureInfoProvider)
             {

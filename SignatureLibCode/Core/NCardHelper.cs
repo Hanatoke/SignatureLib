@@ -55,6 +55,9 @@ public static class NCardHelper
         }
         return false;
     }
+    /// <summary>
+    /// Create Signature Node for NCard
+    /// </summary>
 
     public static void CreateSignature(NCard nCard)
     {
@@ -116,22 +119,28 @@ public static class NCardHelper
         }
         rect.Visible = false;
     }
+    /// <summary>
+    /// Apply Current Signature Setting for the NCard
+    /// </summary>
 
     public static void ApplySignature(this NCard nCard)
     {
         if (nCard.Model == null) return;
         if (nCard.Model.GetCurrentSignature() is {} info)
         {
-            Texture2D texture2D = ResourceLoader.Load<Texture2D>(info.Img);
+            Texture2D texture2D = info.ImgTexture;
             var rect = nCard.SignatureImg();
             rect.Texture=texture2D;
-            Vector2 size = texture2D.GetSize() * info.Scale;
+            Vector2 size = info.GetSignatureSize(texture2D);
             rect.Size = size;
             rect.Position=- size/2;
             rect.PivotOffset = size/2;
             
         }
     }
+    /// <summary>
+    /// Show and Apply Current Signature for the NCard
+    /// </summary>
     public static void ShowSignature(this NCard nCard)
     {
         if (nCard.Visibility != ModelVisibility.Visible) return;
@@ -145,17 +154,38 @@ public static class NCardHelper
         nCard.SignatureDescShadow()?.SetVisible(true);
     }
     public static readonly MethodInfo Reload = AccessTools.Method(typeof(NCard), "Reload");
+    /// <summary>
+    /// Hide the Signature and Show origin NCard visual
+    /// </summary>
     public static void HideSignature(this NCard nCard)
     {
+        nCard.FadeDescription(1,ignoreVerify:true);
         Reload.Invoke(nCard, null);
         nCard.SignatureImg()?.SetVisible(false);
         nCard.SignatureTypeLabel()?.SetVisible(false);
         nCard.SignatureDescShadow()?.SetVisible(false);
     }
-    public static void FadeDescription(this NCard nCard,float targetAlpha=1,float? duration=null)
+    /// <summary>
+    /// Fade the Signature Description
+    /// </summary>
+    public static void FadeDescription(this NCard nCard,float targetAlpha=1,float? duration=null,bool ignoreVerify=false)
     {
         if (nCard.Model == null) return;
-        if (!nCard.Model.IsEnableSignature()) return;
+        if (!ignoreVerify && !nCard.Model.IsEnableSignature()) return;
+        if (!nCard.IsNodeReady())
+        {
+            Action afterReload =null;
+            afterReload= () =>
+            {
+                nCard.Ready -= afterReload;
+                if (GodotObject.IsInstanceValid(nCard)&&nCard.IsNodeReady())
+                {
+                    nCard.FadeDescription(targetAlpha,duration,ignoreVerify);
+                }
+            };
+            nCard.Ready += afterReload;
+            return;
+        }
         if (nCard.SignatureDescShadow() is { } shadow)
         {
             var desc = (DescriptionLabel.GetValue(nCard) as RichTextLabel);

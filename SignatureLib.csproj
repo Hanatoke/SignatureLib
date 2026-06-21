@@ -1,21 +1,25 @@
 <Project Sdk="Godot.NET.Sdk/4.5.1">
+  <Import Project="Sts2PathDiscovery.props" />
   <PropertyGroup>
     <TargetFramework>net9.0</TargetFramework>
     <TargetFramework Condition=" '$(GodotTargetPlatform)' == 'android' ">net9.0</TargetFramework>
     <EnableDynamicLoading>true</EnableDynamicLoading>
+    <GenerateDocumentationFile>true</GenerateDocumentationFile>
+    <DocumentationFile>$(Sts2Path)\mods\$(MSBuildProjectName)\$(MSBuildProjectName).xml</DocumentationFile>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="0Harmony">
-      <HintPath>D:\SteamLibrary\steamapps\common\Slay the Spire 2\data_sts2_windows_x86_64\0Harmony.dll</HintPath>
+      <HintPath>$(Sts2DataDir)/0Harmony.dll</HintPath>
     </Reference>
     <Reference Include="sts2">
-      <HintPath>D:\SteamLibrary\steamapps\common\Slay the Spire 2\data_sts2_windows_x86_64\sts2.dll</HintPath>
+      <HintPath>$(Sts2DataDir)/sts2.dll</HintPath>
     </Reference>
   </ItemGroup>
   <ItemGroup>
     <Folder Include="SignatureLibCode\Node\Dummy\" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="Sts2PathDiscovery.props" />
     <Content Include="SignatureLib\localization\eng\gameplay_ui.json" />
     <Content Include="SignatureLib\localization\eng\settings_ui.json" />
     <Content Include="SignatureLib\localization\zhs\gameplay_ui.json" />
