@@ -8,6 +8,7 @@ using HarmonyLib;
 using MegaCrit.Sts2.Core.Localization;
 using MegaCrit.Sts2.Core.Models;
 using MegaCrit.Sts2.Core.Saves;
+using SignatureLib.SignatureLibCode.Interface;
 
 namespace SignatureLib.SignatureLibCode.Core;
 /// <summary>
@@ -250,6 +251,55 @@ public static class SignatureManager
         {
             SignatureLibMain.Logger.Info(e.ToString());
         }
+    }
+
+    internal static void Init()
+    {
+        SignatureLibMain.Logger.Info("start add signature");
+        foreach (var card in ModelDb.AllCards)
+        {
+            if (card is ISignatureCard { ShouldAutoAddSignature: true } signatureCard)
+            {
+                card.AddSignatures(signatureCard.SignatureInfos);
+                
+                if (signatureCard.AutoEnabledSignature != null && card.GetCurrentSignature() == null &&
+                    card.GetSignatureById(signatureCard.AutoEnabledSignature) is { } info)
+                {
+                    card.SetCurrentSignature(info,false);
+                    card.SetSignatureEnable(true,false);
+                }
+            }
+            foreach (var func in SignatureInfoProvider)
+            {
+                var infos = func?.Invoke(card);
+                if (infos == null) continue;
+                card.AddSignatures(infos);
+            }
+            foreach (var func in SignatureSetProvider)
+            {
+                var e = func?.Invoke(card);
+                if (e==null)continue;
+                foreach (var s in e)
+                {
+                    if (s is { Item1: not null })
+                    {
+                        card.AddSignature(new SignatureInfo()
+                        {
+                            Id = s.Item1,
+                            Img =  s.Item2,
+                            Scale = s.Item3,
+                            Name = s.Item4,
+                            Description = s.Item5,
+                        });
+                    }
+                }
+            }
+            if (card.HasSignature())
+            {
+                SignatureLibMain.Logger.Info($"Added signature {card.Id} Finish");
+            }
+        }
+        LoadSignatureSetting();
     }
     internal class SignatureSave 
     {

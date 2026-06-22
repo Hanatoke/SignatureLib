@@ -2,7 +2,7 @@
   "id": "SignatureLib",
   "name": "SignatureLib",
   "author": "诗音",
-  "description": "Modify the SignatureLib.",
+  "description": "Support for Add Signature to Card.",
   "version": "v1.0.0",
   "has_pck": true,
   "has_dll": true,
