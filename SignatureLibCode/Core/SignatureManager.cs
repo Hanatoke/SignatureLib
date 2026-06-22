@@ -19,7 +19,7 @@ public static class SignatureManager
     /// <summary>
     /// The SaveFile Name for Setting
     /// </summary>
-    public const string SaveFileName = "SignatureSettings.save";
+    public const string SaveFileName = "signature_settings.save";
     /// <summary>
     /// The Collection for Signature Provider by Set
     /// </summary>
