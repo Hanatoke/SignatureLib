@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using Godot;
+using MegaCrit.Sts2.addons.mega_text;
 using MegaCrit.Sts2.Core.Assets;
 using MegaCrit.Sts2.Core.Helpers;
 using MegaCrit.Sts2.Core.HoverTips;
@@ -13,6 +14,7 @@ using MegaCrit.Sts2.Core.Nodes.HoverTips;
 using MegaCrit.Sts2.Core.Nodes.Screens;
 using SignatureLib.SignatureLibCode.Core;
 using SignatureLib.SignatureLibCode.Extensions;
+using SignatureLib.SignatureLibCode.Node.Dummy;
 
 namespace SignatureLib.SignatureLibCode.Node;
 
@@ -21,7 +23,7 @@ public partial class NSignatureSwitch :Control
     public static readonly string Path = "signature_switch.tscn".ScenePath();
     public NButton Left;
     public NButton Right;
-    public Label Text;
+    public MegaRichLabelDummy Text;
     public NInspectCardScreen InspectCardScreen;
     public CardModel? Card;
     public List<SignatureInfo>? Infos;
@@ -35,7 +37,14 @@ public partial class NSignatureSwitch :Control
 
     public override void _Ready()
     {
-        this.Text = GetNode<Label>("Label");
+        this.Text = GetNode<MegaRichLabelDummy>("Label");
+        var temp = NodeHelper.CreateTickbox();
+        var label = temp?.GetNodeOrNull<MegaLabel>("Label");
+        if (label != null)
+        {
+            Text.AddThemeFontOverride(ThemeConstants.RichTextLabel.NormalFont,label.GetThemeFont(ThemeConstants.Label.Font));
+        }
+        temp?.QueueFreeSafely();
         var duplicate = InspectCardScreen.GetNodeOrNull<NGoldArrowButton>("LeftArrow")?.Duplicate(2);
         Left ??= new NGoldArrowButton();
         var center = Size/2;
@@ -115,7 +124,7 @@ public partial class NSignatureSwitch :Control
             var locString = CurrentInfo.Name?.Invoke();
             string defaultString = $"{index + 1}";
             Text.Visible = Infos.Count>1 || locString!=null;
-            Text.Text = locString?.GetFormattedText() ?? defaultString;
+            Text.SetTextAutoSize(locString?.GetFormattedText() ?? defaultString);
             // Left.Visible = index > 0;
             // Right.Visible = index < Infos.Count - 1;
             Left.Visible = Infos.Count > 1;

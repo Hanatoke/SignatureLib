@@ -16,9 +16,6 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="SignatureLibCode\Node\Dummy\" />
-  </ItemGroup>
-  <ItemGroup>
     <None Include="Sts2PathDiscovery.props" />
     <Content Include="SignatureLib\localization\eng\gameplay_ui.json" />
     <Content Include="SignatureLib\localization\eng\settings_ui.json" />

@@ -1,6 +1,9 @@
-[gd_scene load_steps=2 format=3 uid="uid://h6dbdtlu4d75"]
+[gd_scene load_steps=4 format=3 uid="uid://h6dbdtlu4d75"]
 
 [ext_resource type="Script" uid="uid://c7n2mvx24huvm" path="res://SignatureLibCode/Node/NSignatureSwitch.cs" id="1_6y6wp"]
+[ext_resource type="Script" uid="uid://b5o67ogtsiid0" path="res://SignatureLibCode/Node/Dummy/MegaRichLabelDummy.cs" id="2_ucl3c"]
+
+[sub_resource type="SystemFont" id="SystemFont_ucl3c"]
 
 [node name="SignatureSwitch" type="Control"]
 layout_mode = 3
@@ -12,7 +15,7 @@ offset_bottom = 25.0
 pivot_offset = Vector2(50, 25)
 script = ExtResource("1_6y6wp")
 
-[node name="Label" type="Label" parent="."]
+[node name="Label" type="RichTextLabel" parent="."]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
@@ -20,13 +23,27 @@ anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 pivot_offset = Vector2(50, 25)
+mouse_filter = 2
+theme_override_colors/default_color = Color(1, 1, 1, 1)
 theme_override_colors/font_shadow_color = Color(0, 0, 0, 0)
-theme_override_colors/font_outline_color = Color(0, 0, 0, 0.5411765)
-theme_override_constants/shadow_offset_x = 1
-theme_override_constants/shadow_offset_y = 1
-theme_override_constants/outline_size = 12
-theme_override_constants/shadow_outline_size = 1
-theme_override_font_sizes/font_size = 32
+theme_override_constants/line_separation = -3
+theme_override_constants/shadow_offset_x = 2
+theme_override_constants/shadow_offset_y = 2
+theme_override_constants/outline_size = 4
+theme_override_fonts/normal_font = SubResource("SystemFont_ucl3c")
+theme_override_font_sizes/normal_font_size = 21
+theme_override_font_sizes/bold_font_size = 21
+theme_override_font_sizes/bold_italics_font_size = 21
+theme_override_font_sizes/italics_font_size = 21
+theme_override_font_sizes/mono_font_size = 21
+bbcode_enabled = true
 text = "10"
+scroll_active = false
 horizontal_alignment = 1
 vertical_alignment = 1
+script = ExtResource("2_ucl3c")
+AutoSizeEnabled = null
+MinFontSize = null
+MaxFontSize = null
+IsVerticallyBound = null
+IsHorizontallyBound = null
