@@ -15,7 +15,6 @@ public partial class SignatureLibMain : Godot.Node
     public static void Initialize()
     {
         Harmony harmony = new(ModId);
-
         harmony.PatchAll();
         Godot.Bridge.ScriptManagerBridge.LookupScriptsInAssembly(typeof(SignatureLibMain).Assembly);
     }

@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Reflection;
-using System.Runtime.CompilerServices;
 using Godot;
 using HarmonyLib;
 using MegaCrit.Sts2.Core.Assets;
@@ -46,8 +45,11 @@ public static class NCardHelper
     {
         if (ShouldModify(nCard))
         {
-            CreateSignature(nCard);
-            if (nCard.Model.IsEnableSignature())
+            if (nCard.SignatureImg()==null)
+            {
+                CreateSignature(nCard);
+            }
+            if (nCard.Model?.IsEnableSignature()==true)
             {
                 nCard.ShowSignature();
             }
@@ -64,6 +66,41 @@ public static class NCardHelper
         CreateSignatureImg(nCard);
         CreateSignatureTypeLabel(nCard);
         CreateSignatureDescShadow(nCard);
+    }
+    /// <summary>
+    /// Remove All Signature Node for NCard
+    /// </summary>
+    /// <param name="nCard"></param>
+
+    public static void RemoveSignature(NCard nCard)
+    {
+        // HideSignature(nCard);
+        foreach (var action in SwitchOrigin)
+        {
+            action(nCard,true);
+        }
+        if (DescriptionLabel.GetValue(nCard) is RichTextLabel desc)
+        {
+            desc.Modulate = new Color(desc.Modulate.R, desc.Modulate.G, desc.Modulate.B, 1);
+        }
+        Godot.Node node = nCard.SignatureImg();
+        if (node!=null)
+        {
+            node.GetParent()?.RemoveChildSafely(node);
+            node.QueueFreeSafely();
+        }
+        node = nCard.SignatureTypeLabel();
+        if (node!=null)
+        {
+            node.GetParent()?.RemoveChildSafely(node);
+            node.QueueFreeSafely();
+        }
+        node = nCard.SignatureDescShadow();
+        if (node!=null)
+        {
+            node.GetParent()?.RemoveChildSafely(node);
+            node.QueueFreeSafely();
+        }
     }
 
     public static void CreateSignatureImg(NCard nCard)
@@ -171,7 +208,7 @@ public static class NCardHelper
     public static void FadeDescription(this NCard nCard,float targetAlpha=1,float? duration=null,bool ignoreVerify=false)
     {
         if (nCard.Model == null) return;
-        if (!ignoreVerify && !nCard.Model.IsEnableSignature()) return;
+        if (!ignoreVerify && !nCard.Model?.IsEnableSignature()==true) return;
         if (!nCard.IsNodeReady())
         {
             Action afterReload =null;

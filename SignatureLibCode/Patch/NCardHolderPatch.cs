@@ -19,7 +19,6 @@ public class NCardHolderPatch
         return false;
     }
     [HarmonyPatch(typeof(NCardHolder), "CreateHoverTips")]
-    
     public static class NCardHolderCreateHoverTipsPatch
     {
         [HarmonyPostfix]
@@ -63,6 +62,24 @@ public class NCardHolderPatch
             NCardHolderClearHoverTipsPatch.Postfix(__instance);
         }
     }
+    [HarmonyPatch(typeof(NCardHolder),"RefreshFocusState")]
+    public static class RefreshFocusStatePatch
+    {
+        [HarmonyPostfix]
+        public static void Postfix(NCardHolder __instance,bool ____isFocused)
+        {
+            if (____isFocused)
+            {
+                NCardHolderCreateHoverTipsPatch.Postfix(__instance);
+            }
+            else
+            {
+                NCardHolderClearHoverTipsPatch.Postfix(__instance);
+            }
+        }
+    }
+    
+    
     [HarmonyPatch(typeof(NCardHolder), nameof(NCardHolder.ReassignToCard))]
     public static class ReassignToCardPatch
     {
@@ -73,6 +90,15 @@ public class NCardHolderPatch
             {
                 __instance.CardNode?.FadeDescription(result ? 0 : 1);
             }
+        }
+    }
+    [HarmonyPatch(typeof(NCardGrid),"AssignCardsToRow")]
+    public static class AssignCardsToRowPatch
+    {
+        [HarmonyPostfix]
+        public static void Postfix(NCardGrid __instance)
+        {
+            //Disable Jit inline
         }
     }
     [HarmonyPatch(typeof(NCardHolder), nameof(NCardHolder.CardNode), MethodType.Setter)]
