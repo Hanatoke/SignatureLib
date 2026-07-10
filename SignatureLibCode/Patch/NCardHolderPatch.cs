@@ -9,7 +9,7 @@ public class NCardHolderPatch
 {
     public static bool Verify(NCardHolder holder,out bool result)
     {
-        if (holder.CardNode?.Model?.IsEnableSignature() == true &&
+        if (!SignatureManager.AlwaysShowDescription && holder.CardNode?.Model?.IsEnableSignature() == true &&
             holder.CardNode?.Model?.GetCurrentSignature() is { } i )
         {
             result = i.AutoHideDescriptionWhenUnhover(holder);

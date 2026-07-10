@@ -41,6 +41,7 @@ public static class SignatureManager
     /// </summary>
     public static Dictionary<ModelId,bool> SignatureEnable { get; }= new();
     internal static SignatureSave Setting{get; set;} = new();
+    internal static bool AlwaysShowDescription=false;
     /// <summary>
     /// Return the Card has any Signature
     /// </summary>
@@ -85,16 +86,20 @@ public static class SignatureManager
     {
         return SignatureInfos.GetValueOrDefault(id,[]);
     }
+
     /// <summary>
-    /// Add a Signature to the card.
-    /// <param name="signatureInfo">Must have a unique id and valid path</param>
+    /// Add a Signature to the card ID.
+    /// <seealso cref="SignatureInfos"/>
     /// </summary>
-    public static void AddSignature(this CardModel card, SignatureInfo signatureInfo)
+    /// <param name="cardId">The id corresponding to the card type</param>
+    /// <param name="signatureInfo">Must have a unique id and valid path</param>
+    public static void AddSignatureByCardId(ModelId cardId, SignatureInfo signatureInfo)
     {
+        ArgumentNullException.ThrowIfNull(cardId);
         if (signatureInfo == null || string.IsNullOrEmpty(signatureInfo.Id) || string.IsNullOrEmpty(signatureInfo.Img)) return;
-        if (card.GetSignatureInfos().Any(s=>s.Id==signatureInfo.Id))
+        if (GetSignatureInfos(cardId).Any(s=>s.Id==signatureInfo.Id))
         {
-            SignatureLibMain.Logger.Warn("Add signature failed: same id already exists! cardId:" + card.Id+"signatureInfo.Id:" + signatureInfo.Id);
+            SignatureLibMain.Logger.Warn("Add signature failed: same id already exists! cardId:" + cardId+"signatureInfo.Id:" + signatureInfo.Id);
             return;
         }
         if (!signatureInfo.VerifyImgPath(signatureInfo.Img))
@@ -102,9 +107,17 @@ public static class SignatureManager
             SignatureLibMain.Logger.Info("Not found Signature image path, skipped:" + signatureInfo.Img);
             return;
         }
-        if (!SignatureInfos.ContainsKey(card.Id)) SignatureInfos[card.Id] = [];
-        SignatureInfos[card.Id].Add(signatureInfo);
+        if (!SignatureInfos.ContainsKey(cardId)) SignatureInfos[cardId] = [];
+        SignatureInfos[cardId].Add(signatureInfo);
         SignatureLibMain.Logger.Info("success add signature ID:" + signatureInfo.Id);
+    }
+    /// <summary>
+    /// Add a Signature to the card.
+    /// <param name="signatureInfo">Must have a unique id and valid path</param>
+    /// </summary>
+    public static void AddSignature(this CardModel card, SignatureInfo signatureInfo)
+    {
+        AddSignatureByCardId(card.Id, signatureInfo);
     }
     /// <summary>
     /// Add many Signatures to the card.
@@ -127,7 +140,7 @@ public static class SignatureManager
         SignatureEnable[card.Id] = enable;
         if (card.GetCurrentSignature()==null && GetDefaultSignatureInfo(card.Id) is {} info)
         {
-            card.SetCurrentSignature(info);
+            card.SetCurrentSignature(info,false);
         }
 
         if (!saveSetting) return;
@@ -307,6 +320,5 @@ public static class SignatureManager
         public Dictionary<string, bool> SignatureEnableSetting { get; set; } = new();
         [JsonPropertyName("signature_current_select")]
         public Dictionary<string, string> SignatureCurrentSelect { get; set; } = new();
-        
     }
 }

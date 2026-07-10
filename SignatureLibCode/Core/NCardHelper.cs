@@ -12,7 +12,9 @@ using SignatureLib.SignatureLibCode.Extensions;
 using SignatureLib.SignatureLibCode.Node;
 
 namespace SignatureLib.SignatureLibCode.Core;
-
+/// <summary>
+/// Managing the Signature of the actual card UI
+/// </summary>
 public static class NCardHelper
 {
     public static readonly FieldInfo PortraitBorder=AccessTools.Field(typeof(NCard), "_portraitBorder");
@@ -41,6 +43,9 @@ public static class NCardHelper
         if (card == null) return false;
         return card.HasSignature();
     }
+    /// <summary>
+    /// Auto call on <see cref="NCard.Reload"/>
+    /// </summary>
     public static bool AfterReload(NCard nCard)
     {
         if (ShouldModify(nCard))

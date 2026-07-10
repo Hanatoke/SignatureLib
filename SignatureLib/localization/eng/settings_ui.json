@@ -1,7 +1,16 @@
 ﻿{
   "SIGNATURELIB.mod_title": "Signature Lib",
-  
-  
+
+  "SIGNATURELIB-ALWAYS_SHOW_DESCRIPTION.title": "Always Show Card Descriptions",
+  "SIGNATURELIB-ALWAYS_SHOW_DESCRIPTION.hover.desc": "When enabled, card descriptions will no longer be automatically hidden when unhovering.",
+
+  "SIGNATURELIB-FORCE_ENABLE_ALL_SIGNATURE.title": "Enable All Signatures",
+  "SIGNATURELIB-FORCE_ENABLE_ALL_SIGNATURE.hover.desc": "Enable the default signature for all cards that have signatures.",
+  "SIGNATURELIB-FORCE_ENABLE_ALL_SIGNATURE_BUTTON.title": "Enable",
+
+  "SIGNATURELIB-FORCE_DISABLE_ALL_SIGNATURE.title": "Disable All Signatures",
+  "SIGNATURELIB-FORCE_DISABLE_ALL_SIGNATURE.hover.desc": "Set the signature enabled status of all cards with signatures to disabled.",
+  "SIGNATURELIB-FORCE_DISABLE_ALL_SIGNATURE_BUTTON.title": "Disable",
   
   
   "SIGNATURELIB-PlaceHolder.title": "Explosion Size"

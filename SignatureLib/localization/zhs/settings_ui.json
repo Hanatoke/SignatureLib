@@ -1,6 +1,17 @@
 ﻿{
   "SIGNATURELIB.mod_title": "异画库",
   
+  "SIGNATURELIB-ALWAYS_SHOW_DESCRIPTION.title": "总是显示卡牌描述",
+  "SIGNATURELIB-ALWAYS_SHOW_DESCRIPTION.hover.desc": "开启后,卡牌描述将不再随悬浮状态自动隐藏",
+  
+  "SIGNATURELIB-FORCE_ENABLE_ALL_SIGNATURE.title": "启用全部异画",
+  "SIGNATURELIB-FORCE_ENABLE_ALL_SIGNATURE.hover.desc": "为所有有异画的卡牌启用默认异画",
+  "SIGNATURELIB-FORCE_ENABLE_ALL_SIGNATURE_BUTTON.title": "启用",
+  
+  "SIGNATURELIB-FORCE_DISABLE_ALL_SIGNATURE.title": "禁用全部异画",
+  "SIGNATURELIB-FORCE_DISABLE_ALL_SIGNATURE.hover.desc": "将所有异画卡牌的异画启用状态设置为关闭",
+  "SIGNATURELIB-FORCE_DISABLE_ALL_SIGNATURE_BUTTON.title": "禁用",
+  
   
   
   

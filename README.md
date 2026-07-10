@@ -89,3 +89,33 @@ static class InitPatch
     }
 }
 ```
+___
+# **Just want to add Signature to a specific type card?**
+Use _SignatureManager.AddSignature()_ or _SignatureManager.AddSignatures()_ to add Signature to the card.<br>
+```csharp
+///Obtain an instance of the card to which you want to add Signature.
+///For example: ModelDb.Card<>
+CardModel card =ModelDb.Card<StrikeDefect>();
+SignatureManager.AddSignature(card, new SignatureInfo()
+        {
+            Id= (string) Your id,
+            Img= (string)Your own image path,
+            Scale = (Vector2) your image scale
+});
+///This is also an extension method
+///card.AddSignature(...);
+```
+However, the initialization of ModelDb occurs after the Mod initialization, Cannot be called directly within an initialization function.
+
+#### The alternative method is to add it directly using the ModelID
+Use _SignatureManager.AddSignatureByCardId()_ to add Signature to the corresponding Card.
+```csharp
+///If need, you can use new ModelId() to add Signature for other mods without dependency.
+ModelId cardId = ModelDb.GetId<StrikeDefect>();
+SignatureManager.AddSignatureByCardId(cardId, new SignatureInfo()
+    {
+        Id= (string) Your id,
+        Img= (string)Your own image path,
+        Scale = (Vector2) your image scale
+});
+```

@@ -11,8 +11,7 @@ public class HarmonyHelper
         [HarmonyPostfix]
         public static void Postfix()
         {
-            Harmony harmony = new(typeof(InitPatch).FullName);
-            SignatureLibMain.AfterGameInit(harmony);
+            SignatureLibMain.AfterGameInit();
         }
     }
 }

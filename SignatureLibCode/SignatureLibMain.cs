@@ -17,10 +17,12 @@ public partial class SignatureLibMain : Godot.Node
         Harmony harmony = new(ModId);
         harmony.PatchAll();
         Godot.Bridge.ScriptManagerBridge.LookupScriptsInAssembly(typeof(SignatureLibMain).Assembly);
+        
     }
 
-    public static void AfterGameInit(Harmony harmony)
+    public static void AfterGameInit()
     {
         SignatureManager.Init();
+        ModConfig.Init();
     }
 }
