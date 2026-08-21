@@ -1,8 +1,10 @@
 ﻿#nullable enable
 using System;
 using Godot;
+using MegaCrit.Sts2.Core.Assets;
 using MegaCrit.Sts2.Core.Localization;
 using MegaCrit.Sts2.Core.Nodes.Cards.Holders;
+using SignatureLib.SignatureLibCode.Extensions;
 
 namespace SignatureLib.SignatureLibCode.Core;
 /// <summary>
@@ -50,5 +52,11 @@ public class SignatureInfo
     /// The Signature Description will auto hide when unhover on target Holder.
     /// <seealso cref="SignatureLib.SignatureLibCode.Patch.NCardHolderPatch.Verify"/>
     /// </summary>
-    public bool AutoHideDescriptionWhenUnhover(NCardHolder holder) => holder is NGridCardHolder or NHandCardHolder;
+    public virtual bool AutoHideDescriptionWhenUnhover(NCardHolder holder) => holder is NGridCardHolder or NHandCardHolder;
+    /// <summary>
+    /// It will determine the image used to display the shadow below the card text description.
+    /// The Texture2D should be 512px*512px. Default img: SignatureLib/images/desc_shadow.png
+    /// <seealso cref="NCardHelper.ApplySignature"/>
+    /// </summary>
+    public virtual Texture2D? ReplaceDescriptionShadowImg => PreloadManager.Cache.GetAsset<Texture2D>("desc_shadow.png".ImagePath());
 }

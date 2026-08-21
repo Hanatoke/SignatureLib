@@ -3,7 +3,13 @@
 
   "SIGNATURELIB-ALWAYS_SHOW_DESCRIPTION.title": "Always Show Card Descriptions",
   "SIGNATURELIB-ALWAYS_SHOW_DESCRIPTION.hover.desc": "When enabled, card descriptions will no longer be automatically hidden when unhovering.",
-
+  
+  "SIGNATURELIB-DESCRIPTION_SHADOW_FADE_DURATION.title": "Card Description Fade Time",
+  "SIGNATURELIB-DESCRIPTION_SHADOW_FADE_DURATION.hover.desc": "Set to 0 to make the card description appear and disappear instantly.",
+  
+  "SIGNATURELIB-DESCRIPTION_SHADOW_ALPHA.title": "Card Description Shadow Opacity",
+  "SIGNATURELIB-DESCRIPTION_SHADOW_ALPHA.hover.desc": "Set to 0 to make the card description shadow invisible.",
+  
   "SIGNATURELIB-FORCE_ENABLE_ALL_SIGNATURE.title": "Enable All Signatures",
   "SIGNATURELIB-FORCE_ENABLE_ALL_SIGNATURE.hover.desc": "Enable the default signature for all cards that have signatures.",
   "SIGNATURELIB-FORCE_ENABLE_ALL_SIGNATURE_BUTTON.title": "Enable",

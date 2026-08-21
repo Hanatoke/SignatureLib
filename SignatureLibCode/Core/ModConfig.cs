@@ -77,6 +77,14 @@ public class ModConfig
             ["Color"], [color.Value.ToHtml()], [], []);
     }
 
+    public static CustomAttributeBuilder ConfigSlider(Assembly asm, double min, double max, double step,
+        string format = null)
+    {
+        return GetCustomAttributeBuilder(asm, "BaseLib.Config.ConfigSliderAttribute",
+            [typeof(double), typeof(double), typeof(double)], [min, max, step],
+            ["Format"], [format], [], []);
+    }
+
     public static MethodBuilder CreateButton(Assembly asm,TypeBuilder typeBuilder,string methodName,string buttonName,Color? color=null)
     {
         var methodBuilder = typeBuilder.DefineMethod(methodName, MethodAttributes.Public | MethodAttributes.Static,
@@ -135,6 +143,14 @@ public class ModConfig
         CreateProperty(asm, typeBuilder, "AlwaysShowDescription", typeof(bool),
             AccessTools.Method(typeof(ModConfig), nameof(AlwaysShowDescriptionGetter)),
             AccessTools.Method(typeof(ModConfig), nameof(AlwaysShowDescriptionSetter)));
+        CreateProperty(asm, typeBuilder, "DescriptionShadowFadeDuration", typeof(float),
+            AccessTools.Method(typeof(ModConfig), nameof(DescriptionShadowFadeDurationGetter)),
+            AccessTools.Method(typeof(ModConfig), nameof(DescriptionShadowFadeDurationSetter)))
+            .SetCustomAttribute(ConfigSlider(asm,0,2,0.01,"{0:P0}"));
+        CreateProperty(asm, typeBuilder, "DescriptionShadowAlpha", typeof(float),
+            AccessTools.Method(typeof(ModConfig), nameof(DescriptionShadowAlphaGetter)),
+            AccessTools.Method(typeof(ModConfig), nameof(DescriptionShadowAlphaSetter)))
+            .SetCustomAttribute(ConfigSlider(asm,0,1,0.01,"{0:P0}"));
         CreateButton(asm,typeBuilder,nameof(ForceEnableAllSignature),nameof(ForceEnableAllSignature)+"Button");
         CreateButton(asm,typeBuilder,nameof(ForceDisableAllSignature),nameof(ForceDisableAllSignature)+"Button",Colors.DarkRed);
         return typeBuilder.CreateType();
@@ -143,6 +159,10 @@ public class ModConfig
     public static bool AlwaysShowDescriptionGetter() => SignatureManager.AlwaysShowDescription;
 
     public static void AlwaysShowDescriptionSetter(bool f)=>SignatureManager.AlwaysShowDescription = f;
+    public static float DescriptionShadowFadeDurationGetter()=>SignatureManager.DescriptionShadowFadeDuration;
+    public static void DescriptionShadowFadeDurationSetter(float f)=>SignatureManager.DescriptionShadowFadeDuration=f;
+    public static float DescriptionShadowAlphaGetter()=>SignatureManager.DescriptionShadowAlpha;
+    public static void DescriptionShadowAlphaSetter(float f)=>SignatureManager.DescriptionShadowAlpha=f;
 
     public static void ForceEnableAllSignature()
     {

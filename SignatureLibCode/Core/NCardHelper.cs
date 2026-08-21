@@ -151,7 +151,8 @@ public static class NCardHelper
         rect.ExpandMode = TextureRect.ExpandModeEnum.FitHeight;
         rect.StretchMode = TextureRect.StretchModeEnum.KeepAspectCentered;
         rect.MouseFilter = Control.MouseFilterEnum.Ignore;
-        rect.Texture = PreloadManager.Cache.GetAsset<Texture2D>("desc_shadow.png".ImagePath());
+        // rect.Texture = PreloadManager.Cache.GetAsset<Texture2D>("desc_shadow.png".ImagePath());
+        rect.SelfModulate = new Color(1, 1, 1, SignatureManager.DescriptionShadowAlpha);
         rect.Size=rect.Texture.GetSize()/2;
         rect.Position=-rect.Size/2;
         rect.PivotOffset = rect.Size / 2;
@@ -167,8 +168,7 @@ public static class NCardHelper
 
     public static void ApplySignature(this NCard nCard)
     {
-        if (nCard.Model == null) return;
-        if (nCard.Model.GetCurrentSignature() is {} info)
+        if (nCard.Model?.GetCurrentSignature() is {} info)
         {
             Texture2D texture2D = info.ImgTexture;
             var rect = nCard.SignatureImg();
@@ -178,6 +178,7 @@ public static class NCardHelper
             rect.Position=- size/2;
             rect.PivotOffset = size/2;
             
+            nCard.SignatureDescShadow().Texture = info.ReplaceDescriptionShadowImg;
         }
     }
     /// <summary>
@@ -214,6 +215,7 @@ public static class NCardHelper
     {
         if (nCard.Model == null) return;
         if (!ignoreVerify && !nCard.Model?.IsEnableSignature()==true) return;
+        if (duration!=null)duration *= SignatureManager.DescriptionShadowFadeDuration;
         if (!nCard.IsNodeReady())
         {
             Action afterReload =null;

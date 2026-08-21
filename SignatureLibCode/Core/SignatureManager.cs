@@ -42,6 +42,8 @@ public static class SignatureManager
     public static Dictionary<ModelId,bool> SignatureEnable { get; }= new();
     internal static SignatureSave Setting{get; set;} = new();
     internal static bool AlwaysShowDescription=false;
+    internal static float DescriptionShadowFadeDuration = 1;
+    internal static float DescriptionShadowAlpha = 1;
     /// <summary>
     /// Return the Card has any Signature
     /// </summary>
